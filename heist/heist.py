@@ -850,7 +850,8 @@ class Heist:
             if offenses > 1:
                 offenses = offenses - 1
 
-            sentence = sentence_base * offenses
+            # sentences do not scale with offenses
+            sentence = sentence_base
             bail = bail_base * offenses
             if settings["Players"][user.id]["OOB"]:
                 bail = bail * 3
