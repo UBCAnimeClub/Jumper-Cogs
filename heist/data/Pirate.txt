@@ -1,23 +1,23 @@
-|Good| "{} battened down the hatches. +25 credits.", 25
-|Good| "{} plundered a barrel of rum. +50 credits.", 50
-|Good| "{} blew a hole in an enemy ship with a cannon. +50 credits.", 50
-|Good| "{} narrowly steered the ship clear of some rocks. +50 credits.", 50
-|Good| "ARG! {} cut down a man twice their size! +50 credits", 50
-|Good| "{}'s flintlock blew the head off a poor sod. +50 credits", 50
-|Good| "{} found where the X marked the spot and uncovered a treasure. +150 credits", 150
-|Good| "While pillaging, {} found some rare jewels. +75 credits", 75
-|Good| "{} sent an enemy to Davy Jones's locker! +50 credits", 50
-|Good| "{} found a replacement peg-leg. +25 credits", 25
-|Good| "{} found a shipment of rations. +25 credits", 25
-|Good| "Well blow me down! {} captured an enemy corsair! +50 credits", 50
-|Good| "Shiver me timbers! {} set fire to an enemy ship! +100 credits", 100
-|Good| "{} found some medical supplies. +25 credits", 25
-|Good| "{} found some medical supplies. +25 credits", 25
-|Good| "{} furled the sails in quick persuit. +25 credits", 25
-|Good| "{} prepared the water barrels for fires. +25 credits", 25
-|Good| "{} hoisted the flag and ordered all hands on deck. +25 credits", 25
-|Good| "{} hoisted the flag and ordered all hands on deck. +25 credits", 25
-|Good| "{} cut the sails of an enemy ship. +50 credits", 50
+|Good| "{} battened down the hatches. +600 credits.", 600
+|Good| "{} plundered a barrel of rum. +900 credits.", 900
+|Good| "{} blew a hole in an enemy ship with a cannon. +900 credits.", 900
+|Good| "{} narrowly steered the ship clear of some rocks. +900 credits.", 900
+|Good| "ARG! {} cut down a man twice their size! +900 credits", 900
+|Good| "{}'s flintlock blew the head off a poor sod. +900 credits", 900
+|Good| "{} found where the X marked the spot and uncovered a treasure. +2100 credits", 2100
+|Good| "While pillaging, {} found some rare jewels. +1200 credits", 1200
+|Good| "{} sent an enemy to Davy Jones's locker! +900 credits", 900
+|Good| "{} found a replacement peg-leg. +600 credits", 600
+|Good| "{} found a shipment of rations. +600 credits", 600
+|Good| "Well blow me down! {} captured an enemy corsair! +900 credits", 900
+|Good| "Shiver me timbers! {} set fire to an enemy ship! +1500 credits", 1500
+|Good| "{} found some medical supplies. +600 credits", 600
+|Good| "{} found some medical supplies. +600 credits", 600
+|Good| "{} furled the sails in quick persuit. +600 credits", 600
+|Good| "{} prepared the water barrels for fires. +600 credits", 600
+|Good| "{} hoisted the flag and ordered all hands on deck. +600 credits", 600
+|Good| "{} hoisted the flag and ordered all hands on deck. +600 credits", 600
+|Good| "{} cut the sails of an enemy ship. +900 credits", 900
 
 |Bad| "Yarr! {0} lost a dishonest duel against the enemy.", "Apprehended"
 |Bad| "Blimey! {0} fell overboard!", "Apprehended"

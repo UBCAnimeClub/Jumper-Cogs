@@ -7,32 +7,32 @@ Sentence = sentence
 Heist = heist
 Vault = vault
 
-|Good| "{} had the car gassed up and ready to go. +25 credits.", 25
-|Good| "{} cut the power to the bank. +50 credits.", 50
-|Good| "{} erased the video footage. +50 credits.", 50
-|Good| "{} hacked the security system and put it on a loop feed. +75 credits.", 75
-|Good| "{} stopped the teller from triggering the silent alarm. +50 credits.", 50
-|Good| "{} knocked out the local security. +50 credits.", 50
-|Good| "{} stopped a local from being a hero +50 credits.", 50
-|Good| "{} got the police negotiator to deliver everyone pizza. +25 credits.", 25
-|Good| "{} brought masks of former presidents to hide our identity. +25 credits.", 25
-|Good| "{} found an escape route. +25 credits.", 25
-|Good| "{} brought extra ammunition for the crew. +25 credits.", 25
-|Good| "{} cut through that safe like butter. +25 credits.", 25
-|Good| "{} kept the hostages under control. +25 credits.", 25
-|Good| "{} created a distraction to get the crew out. +50 credits.", 50
-|Good| "{} improvised under pressure and got the crew out. +50 credits.", 50
-|Good| "{} counter sniped a sniper. +100 credits.", 100
-|Good| "{} distracted the guard. +25 credits.", 25
-|Good| "{} brought a Go-Bag for the team. +25 credits.", 25
-|Good| "{} found a secret stash in the deposit box room. +50 credits.", 50
-|Good| "{} found a box of jewelry on a civilian. +25 credits.", 25
-|Good| "{} stayed focused and vigilant. +25 credits.", 25
-|Good| "{} spray painted the video cameras. +25 credits.", 25
-|Good| "{} located the vault manager. +25 credits.", 25
-|Good| "{} set a clever trap for the swat team. +50 credits.", 50
-|Good| "{} Planned the getaway route. +25 credits.", 25
-|Good| "{} Changed vehicles by stealing an old lady's car. +50 credits.", 50
+|Good| "{} had the car gassed up and ready to go. +600 credits.", 600
+|Good| "{} cut the power to the bank. +900 credits.", 900
+|Good| "{} erased the video footage. +900 credits.", 900
+|Good| "{} hacked the security system and put it on a loop feed. +1200 credits.", 1200
+|Good| "{} stopped the teller from triggering the silent alarm. +900 credits.", 900
+|Good| "{} knocked out the local security. +900 credits.", 900
+|Good| "{} stopped a local from being a hero +900 credits.", 900
+|Good| "{} got the police negotiator to deliver everyone pizza. +600 credits.", 600
+|Good| "{} brought masks of former presidents to hide our identity. +600 credits.", 600
+|Good| "{} found an escape route. +600 credits.", 600
+|Good| "{} brought extra ammunition for the crew. +600 credits.", 600
+|Good| "{} cut through that safe like butter. +600 credits.", 600
+|Good| "{} kept the hostages under control. +600 credits.", 600
+|Good| "{} created a distraction to get the crew out. +900 credits.", 900
+|Good| "{} improvised under pressure and got the crew out. +900 credits.", 900
+|Good| "{} counter sniped a sniper. +1500 credits.", 1500
+|Good| "{} distracted the guard. +600 credits.", 600
+|Good| "{} brought a Go-Bag for the team. +600 credits.", 600
+|Good| "{} found a secret stash in the deposit box room. +900 credits.", 900
+|Good| "{} found a box of jewelry on a civilian. +600 credits.", 600
+|Good| "{} stayed focused and vigilant. +600 credits.", 600
+|Good| "{} spray painted the video cameras. +600 credits.", 600
+|Good| "{} located the vault manager. +600 credits.", 600
+|Good| "{} set a clever trap for the swat team. +900 credits.", 900
+|Good| "{} Planned the getaway route. +600 credits.", 600
+|Good| "{} Changed vehicles by stealing an old lady's car. +900 credits.", 900
 
 |Bad| "A shoot out with local authorities began and {0} was hit...but survived!", "Apprehended"
 |Bad| "The cops dusted for finger prints and later arrested {0}.", "Apprehended"
