@@ -373,7 +373,7 @@ class Race:
             data['Daily'] = threading.Event()
 
         data['Daily'].clear()
-        threading.Timer(seconds, self.daily_race, [data['Daily']]).start()
+        await threading.Timer(seconds, self.daily_race, [data['Daily']]).start()
         await self.bot.say("The race will occur daily at {}!".format(startTime))
         await self.bot.say("The first daily race will start in {} seconds".format(seconds))
         await self.bot.say("Time now: {}".format(timeNow.strftime("%Y-%m-%d %H:%M:%S")))
