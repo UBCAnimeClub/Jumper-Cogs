@@ -394,7 +394,7 @@ class Race:
         if not stop_daily.is_set():
             await self.bot.say("Time for the daily race!")
             await self.bot.say(">race start")
-            threading.Timer(time, daily_race, [stop_daily]).start()
+            threading.Timer(time, self.daily_race, [stop_daily]).start()
 
     def check_server(self, server):
         if server.id in self.system:
