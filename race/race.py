@@ -352,7 +352,7 @@ class Race:
             data['Winner'] = None
 
     @race.command(name="daily start", pass_context=True)
-    async def _start_daily(self, ctx, startTime: str):
+    async def _start_daily(self, ctx, startTime):
         """Set the bot to do a daily race
         """
         author = ctx.message.author
@@ -372,6 +372,8 @@ class Race:
 
         data['Daily'].clear()
         daily_race(data['Daily'], seconds)
+
+        await self.bot.say("The race will occur daily at {}!".format(startTime))
 
     @race.command(name="daily stop", pass_context=True)
     async def _stop_daily(self, ctx):
