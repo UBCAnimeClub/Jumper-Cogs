@@ -377,7 +377,7 @@ class Race:
         await self.bot.say("The race will occur daily at {}!".format(startTime))
         await self.bot.say("The first daily race will start in {} seconds".format(seconds))
         await self.bot.say("Time now: {}".format(timeNow.strftime("%Y-%m-%d %H:%M:%S")))
-        await self.bot.say("Time to start: {}".format(timeStart.strftime("%Y-%m-%d %H:%M:%S")))
+        await self.bot.say("Start time: {}".format(timeStart.strftime("%Y-%m-%d %H:%M:%S")))
 
     @race.command(name="stopdaily", pass_context=True)
     async def _stop_daily(self, ctx):
@@ -389,10 +389,12 @@ class Race:
 
         if 'Daily' in data and not data['Daily'].isSet():
             data['Daily'].set()
+            await self.bot.say("The daily race has been cancelled")
         else:
-            await self.bot.say("There is no daily race to stop!")
+            await self.bot.say("There is no daily race to stop, dumbass")
 
     async def daily_race(self, stop_daily, time=86400):
+        await self.bot.say("Trying to start the daily race now")
         if not stop_daily.is_set():
             await self.bot.say("Time for the daily race!")
             await self.bot.say(">race start")
