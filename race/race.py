@@ -376,6 +376,8 @@ class Race:
         threading.Timer(seconds, self.daily_race, [data['Daily']]).start()
         await self.bot.say("The race will occur daily at {}!".format(startTime))
         await self.bot.say("The first daily race will start in {} seconds".format(seconds))
+        await self.bot.say("Time now: {}".format(timeNow.strftime("%Y-%m-%d %H:%M:%S")))
+        await self.bot.say("Time to start: {}".format(timeStart.strftime("%Y-%m-%d %H:%M:%S")))
 
     @race.command(name="stopdaily", pass_context=True)
     async def _stop_daily(self, ctx):
