@@ -371,7 +371,7 @@ class Race:
             data['Daily'] = threading.Event()
 
         data['Daily'].clear()
-        daily_race(data['Daily'], seconds)
+        await daily_race(data['Daily'], seconds)
 
         await self.bot.say("The race will occur daily at {}!".format(startTime))
 
@@ -388,11 +388,11 @@ class Race:
         else:
             await self.bot.say("There is no daily race to stop!")
 
-    def daily_race(self, stopDaily, time=86400):
-        if not stopDaily.is_set():
+    async def daily_race(self, stop_daily, time=86400):
+        if not stop_daily.is_set():
             await self.bot.say("Time for the daily race!")
             await self.bot.say(">race start")
-            threading.Timer(time, daily_race, [stopDaily]).start()
+            threading.Timer(time, daily_race, [stop_daily]).start()
 
     def check_server(self, server):
         if server.id in self.system:
