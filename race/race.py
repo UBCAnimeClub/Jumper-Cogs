@@ -366,7 +366,7 @@ class Race:
         timeStart = datetime.strptime(startTime, FMT)
         tdelta = timeStart - timeNow
         if tdelta.days < 0:
-            tdelta = datetime.timedelta(days=0, seconds=tdelta.seconds, microseconds=tdelta.microseconds)
+            tdelta = timedelta(days=0, seconds=tdelta.seconds, microseconds=tdelta.microseconds)
         seconds = tdelta.total_seconds()
 
         if not 'Daily' in data:
