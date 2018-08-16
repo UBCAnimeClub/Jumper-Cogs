@@ -6,7 +6,7 @@ import asyncio
 import random
 import os
 import threading
-import datetime
+from datetime import datetime
 
 # Discord and Red Utils
 import discord
@@ -361,7 +361,7 @@ class Race:
         settings = self.check_config(author.server)
 
         FMT = '%H:%M:%S'
-        timeNow = datetime.strptime(datetime.datetime.now(), FMT)
+        timeNow = datetime.strptime(datetime.now(), FMT)
         timeStart = datetime.strptime(startTime, FMT)
         tdelta = timeStart - timeNow
         if tdelta.days < 0:
