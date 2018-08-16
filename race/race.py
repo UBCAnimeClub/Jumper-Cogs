@@ -5,6 +5,7 @@
 import asyncio
 import random
 import os
+import threading
 
 # Discord and Red Utils
 import discord
@@ -349,6 +350,47 @@ class Race:
                                "you get {} credits.".format(prize))
         finally:
             data['Winner'] = None
+
+    @race.command(name="daily start", pass_context=True)
+    async def _start_daily(self, ctx, startTime: str):
+        """Set the bot to do a daily race
+        """
+        author = ctx.message.author
+        data = self.check_server(author.server)
+        settings = self.check_config(author.server)
+
+        FMT = '%H:%M:%S'
+        timeNow = datetime.strptime(datetime.datetime.now(), FMT)
+        timeStart = datetime.strptime(startTime, FMT)
+        tdelta = timeStart - timeNow
+        if tdelta.days < 0:
+            tdelta = timedelta(days=0, seconds=tdelta.seconds, microseconds=tdelta.microseconds)
+        seconds = tdelta.total_seconds()
+
+        if not 'Daily' in data:
+            data['Daily'] = threading.Event()
+
+        data['Daily'].clear()
+        daily_race(data['Daily'], seconds)
+
+    @race.command(name="daily stop", pass_context=True)
+    async def _stop_daily(self, ctx):
+        """Stop the daily race
+        """
+        author = ctx.message.author
+        data = self.check_server(author.server)
+        settings = self.check_config(author.server)
+
+        if 'Daily' in data and not data['Daily'].isSet():
+            data['Daily'].set()
+        else:
+            await self.bot.say("There is no daily race to stop!")
+
+    def daily_race(self, stopDaily, time=86400):
+        if not stopDaily.is_set():
+            await self.bot.say("Time for the daily race!")
+            await self.bot.say(">race start")
+            threading.Timer(time, daily_race, [stopDaily]).start()
 
     def check_server(self, server):
         if server.id in self.system:
