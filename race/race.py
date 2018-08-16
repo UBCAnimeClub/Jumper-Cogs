@@ -373,7 +373,7 @@ class Race:
             data['Daily'] = threading.Event()
 
         data['Daily'].clear()
-        await daily_race(data['Daily'], seconds)
+        await self.daily_race(data['Daily'], seconds)
 
         await self.bot.say("The race will occur daily at {}!".format(startTime))
 
