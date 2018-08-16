@@ -361,7 +361,7 @@ class Race:
         settings = self.check_config(author.server)
 
         FMT = '%H:%M:%S'
-        timeNow = datetime.strptime(datetime.now(), FMT)
+        timeNow = datetime.now()
         timeStart = datetime.strptime(startTime, FMT)
         tdelta = timeStart - timeNow
         if tdelta.days < 0:
