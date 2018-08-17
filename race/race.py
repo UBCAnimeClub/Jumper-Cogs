@@ -270,7 +270,9 @@ class Race:
         embed.add_field(name='-' * 99, value='{} is the winner!'.format(data['Winner']))
         embed.title = "Race Results"
         await self.bot.say(content=data['Winner'].mention, embed=embed)
-        await self._claim_race(ctx)
+        if not data['Winner'].bot:
+            await self._claim_race(ctx)
+
         self.game_teardown(data)
 
     @race.command(name="enter", pass_context=True)
@@ -480,9 +482,6 @@ class Race:
 
         prize = random.randint(10, 100)
         data['Prize'] = prize
-
-    async def unload(self):
-        self.data['Daily'].set()
 
 def check_folders():
     if not os.path.exists('data/race'):
