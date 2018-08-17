@@ -355,10 +355,7 @@ class Race:
         FMT = '%H:%M:%S'
         time_now = datetime.now()
         try:
-            time_start = datetime.strptime(start_time, FMT)
-            time_start.year = time_now.year
-            time_start.month = time_now.month
-            time_start.day = time_now.day
+            time_start = datetime.strptime(start_time, FMT).replace(year=time_now.year, month=time_now.month, day=time_now.day)
         except ValueError:
             return await self.bot.say("Please format the date like this: {}".format(FMT))
         tdelta = time_start - time_now
