@@ -392,7 +392,7 @@ class Race:
                 time_before = datetime.now()
                 await self.bot.say("Time for the daily race!")
                 await self._start_race(ctx)
-                await asyncio.sleep((datetime.now() - time_before).second)
+                await asyncio.sleep((datetime.now() - time_before).total_seconds())
             else:
                 break
 
