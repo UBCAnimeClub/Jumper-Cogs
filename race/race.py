@@ -380,7 +380,7 @@ class Race:
         await self.bot.say("Start time: {}".format(timeStart.strftime("%Y-%m-%d %H:%M:%S")))
 
         await asyncio.sleep(seconds)
-        await self.daily_race(data['Daily'])
+        await self.daily_race(ctx, data['Daily'])
 
     @race.command(name="stopdaily", pass_context=True)
     async def _stop_daily(self, ctx):
@@ -396,13 +396,13 @@ class Race:
         else:
             await self.bot.say("There is no daily race to stop, dumbass")
 
-    async def daily_race(self, stop_daily, time=86400):
+    async def daily_race(self, ctx, stop_daily, time=86400):
         await self.bot.say("Trying to start the daily race now")
         if not stop_daily.is_set():
             await self.bot.say("Time for the daily race!")
-            await self.start_race()
+            await self.start_race(ctx)
             await asyncio.sleep(time)
-            await self.daily_race(stop_daily, time)
+            await self.daily_race(ctx, stop_daily, time)
 
     def check_server(self, server):
         if server.id in self.system:
