@@ -366,7 +366,7 @@ class Race:
         seconds = tdelta.total_seconds()
 
         data['Daily'] = threading.Event()
-        await self.bot.say("{}: The race will occur daily at {}!".format(discord.utils.get(ctx.server.roles, name="race").mention, start_time))
+        await self.bot.say("{}: The race will occur daily at {}!".format(discord.utils.get(ctx.message.server.roles, name="race").mention, start_time))
         await self.bot.say("The first daily race will start in {} seconds".format(seconds))
         await self.bot.say("Time now: {}".format(time_now.strftime("%Y-%m-%d %H:%M:%S")))
         await self.bot.say("Start time: {}".format(time_start.strftime("%Y-%m-%d %H:%M:%S")))
