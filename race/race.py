@@ -382,7 +382,7 @@ class Race:
         else:
             await self.bot.say("There is no daily race to stop, dumbass")
 
-    async def daily_race(self, ctx, stop_daily, time=86400):
+    async def daily_race(self, ctx, stop_daily, time=300):
         await self.bot.say("Trying to start the daily race now")
         while True:
             if not stop_daily.is_set():
@@ -481,6 +481,8 @@ class Race:
         prize = random.randint(10, 100)
         data['Prize'] = prize
 
+    async def unload(self):
+        self.data['Daily'].set()
 
 def check_folders():
     if not os.path.exists('data/race'):
@@ -495,7 +497,6 @@ def check_files():
     if not dataIO.is_valid_json(f):
         print('data/race/race.json')
         dataIO.save_json(f, system)
-
 
 def setup(bot):
     check_folders()
