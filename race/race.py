@@ -350,27 +350,25 @@ class Race:
             data['Winner'] = None
 
     @race.command(name="startdaily", pass_context=True)
-    async def _start_daily(self, ctx, startTime):
+    async def _start_daily(self, ctx, start_time):
         """Set the bot to do a daily race
         """
         author = ctx.message.author
         data = self.check_server(author.server)
-        settings = self.check_config(author.server)
 
         FMT = '%H:%M:%S'
-        timeNow = datetime.now()
-        timeStart = datetime.strptime(startTime, FMT)
-        tdelta = timeStart - timeNow
+        time_now = datetime.now()
+        time_start = datetime.strptime(start_time, FMT)
+        tdelta = time_start - time_now
         if tdelta.days < 0:
             tdelta = timedelta(days=0, seconds=tdelta.seconds, microseconds=tdelta.microseconds)
         seconds = tdelta.total_seconds()
 
         data['Daily'] = threading.Event()
-        #threading.Timer(seconds, self.daily_race, [data['Daily']]).start()
-        await self.bot.say("The race will occur daily at {}!".format(startTime))
+        await self.bot.say("The race will occur daily at {}!".format(start_time))
         await self.bot.say("The first daily race will start in {} seconds".format(seconds))
-        await self.bot.say("Time now: {}".format(timeNow.strftime("%Y-%m-%d %H:%M:%S")))
-        await self.bot.say("Start time: {}".format(timeStart.strftime("%Y-%m-%d %H:%M:%S")))
+        await self.bot.say("Time now: {}".format(time_now.strftime("%Y-%m-%d %H:%M:%S")))
+        await self.bot.say("Start time: {}".format(time_start.strftime("%Y-%m-%d %H:%M:%S")))
 
         await asyncio.sleep(seconds)
         await self.daily_race(ctx, data['Daily'])
