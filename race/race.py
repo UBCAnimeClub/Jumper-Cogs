@@ -321,9 +321,6 @@ class Race:
         data = self.check_server(author.server)
         settings = self.check_config(author.server)
 
-        if data['Race Active']:
-            return
-
         try:
             bank = self.bot.get_cog('Economy').bank
         except AttributeError:
@@ -364,7 +361,7 @@ class Race:
         seconds = tdelta.total_seconds()
 
         data['Daily'] = threading.Event()
-        await self.bot.say("The race will occur daily at {}!".format(start_time))
+        await self.bot.say("@race: The race will occur daily at {}!".format(start_time))
         await self.bot.say("The first daily race will start in {} seconds".format(seconds))
         await self.bot.say("Time now: {}".format(time_now.strftime("%Y-%m-%d %H:%M:%S")))
         await self.bot.say("Start time: {}".format(time_start.strftime("%Y-%m-%d %H:%M:%S")))
@@ -392,7 +389,7 @@ class Race:
                 time_before = datetime.now()
                 await self.bot.say("Time for the daily race!")
                 await self._start_race(ctx)
-                await asyncio.sleep((datetime.now() - time_before).total_seconds())
+                await asyncio.sleep(time - (datetime.now() - time_before).total_seconds())
             else:
                 break
 
