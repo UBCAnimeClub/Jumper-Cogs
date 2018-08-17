@@ -210,7 +210,7 @@ class Race:
         """Reset race parameters DEBUG USE ONLY"""
         server = ctx.message.server
         data = self.check_server(server)
-        self.game_teardown(data, force=True)
+        self.game_teardown(data)
         await self.bot.say("Parameters reset.")
 
     async def _start_race(self, ctx):
@@ -237,7 +237,7 @@ class Race:
         if data['Race Active']:
             return
 
-        self.game_teardown(data, force=True)
+        self.game_teardown(data)
         data['Race Active'] = True
         wait = settings['Time']
         await self.bot.say(":triangular_flag_on_post: A race has begun! Type {}race enter "
@@ -252,7 +252,6 @@ class Race:
         race_msg = await self.bot.say('\u200b'+'\n'+'\n'.join([player.field() for player in racers]))
         await self.run_game(racers, race_msg, data)
 
-        footer = "Type {}race claim to receive prize money. You must claim it before the next race!"
         first = ':first_place:  {0}'.format(*data['First'])
         fv = '{1}\n{2:.2f}s'.format(*data['First'])
         second = ':second_place: {0}'.format(*data['Second'])
@@ -270,8 +269,8 @@ class Race:
         embed.add_field(name=third, value=tv)
         embed.add_field(name='-' * 99, value='{} is the winner!'.format(data['Winner']))
         embed.title = "Race Results"
-        embed.set_footer(text=footer.format(ctx.prefix))
         await self.bot.say(content=data['Winner'].mention, embed=embed)
+        await self.bot._claim_race(ctx)
         self.game_teardown(data)
 
     @race.command(name="enter", pass_context=True)
@@ -302,7 +301,6 @@ class Race:
             data['Players'][author.id] = {}
             await self.bot.say("**{}** entered the race!".format(author.name))
 
-    @race.command(name="claim", pass_context=True)
     async def _claim_race(self, ctx):
         """Claim your prize from the animal race
 
@@ -326,8 +324,6 @@ class Race:
         if data['Race Active']:
             return
 
-        if data['Winner'] != author:
-            return await self.bot.say("Scram kid. You didn't win nothing yet.")
         try:
             bank = self.bot.get_cog('Economy').bank
         except AttributeError:
@@ -336,18 +332,18 @@ class Race:
         prize_range = settings['Prize']
         prize = random.randint(*prize_range)
 
+        winner = data['Winner']
+
         try:  # Because people will play games for money without a fucking account smh
-            bank.deposit_credits(author, prize)
+            bank.deposit_credits(winner, prize)
         except Exception as e:
-            print('{} raised {} because they are stupid.'.format(author.name, type(e)))
+            print('{} raised {} because they are stupid.'.format(winner.name, type(e)))
             await self.bot.say("We wanted to give you a prize, but you didn't have a bank "
                                "account.\nTo teach you a lesson, your winnings are mine this "
                                "time. Now go register!")
         else:
             await self.bot.say("After paying for animal feed, entrance fees, track fees, "
                                "you get {} credits.".format(prize))
-        finally:
-            data['Winner'] = None
 
     @race.command(name="startdaily", pass_context=True)
     async def _start_daily(self, ctx, start_time):
@@ -358,7 +354,10 @@ class Race:
 
         FMT = '%H:%M:%S'
         time_now = datetime.now()
-        time_start = datetime.strptime(start_time, FMT)
+        try:
+            time_start = datetime.strptime(start_time, FMT)
+        except ValueError:
+            return await self.bot.say("Please format the date like this: {}".format(FMT))
         tdelta = time_start - time_now
         if tdelta.days < 0:
             tdelta = timedelta(days=0, seconds=tdelta.seconds, microseconds=tdelta.microseconds)
@@ -390,9 +389,10 @@ class Race:
         await self.bot.say("Trying to start the daily race now")
         while True:
             if not stop_daily.is_set():
+                time_before = datetime.now()
                 await self.bot.say("Time for the daily race!")
                 await self._start_race(ctx)
-                await asyncio.sleep(time)
+                await asyncio.sleep((datetime.now() - time_before).second)
             else:
                 break
 
@@ -413,9 +413,8 @@ class Race:
             self.save_settings()
             return self.config['Servers'][server.id]
 
-    def game_teardown(self, data, force=False):
-        if data['Winner'] == self.bot.user or force:
-            data['Winner'] = None
+    def game_teardown(self, data):
+        data['Winner'] = None
         data['Race Active'] = False
         data['Race Start'] = False
         data['First'] = None
