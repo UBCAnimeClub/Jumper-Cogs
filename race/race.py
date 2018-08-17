@@ -370,11 +370,14 @@ class Race:
         seconds = tdelta.total_seconds()
 
         data['Daily'] = threading.Event()
-        threading.Timer(seconds, self.daily_race, [data['Daily']]).start()
+        #threading.Timer(seconds, self.daily_race, [data['Daily']]).start()
         await self.bot.say("The race will occur daily at {}!".format(startTime))
         await self.bot.say("The first daily race will start in {} seconds".format(seconds))
         await self.bot.say("Time now: {}".format(timeNow.strftime("%Y-%m-%d %H:%M:%S")))
         await self.bot.say("Start time: {}".format(timeStart.strftime("%Y-%m-%d %H:%M:%S")))
+
+        await asyncio.sleep(seconds)
+        self.daily_race(data['Daily'])
 
     @race.command(name="stopdaily", pass_context=True)
     async def _stop_daily(self, ctx):
@@ -395,7 +398,8 @@ class Race:
         if not stop_daily.is_set():
             await self.bot.say("Time for the daily race!")
             await self.bot.say(">race start")
-            threading.Timer(time, self.daily_race, [stop_daily]).start()
+            await asyncio.sleep(time)
+            self.daily_race(stop_daily, time)
 
     def check_server(self, server):
         if server.id in self.system:
