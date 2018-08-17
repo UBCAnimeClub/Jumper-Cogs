@@ -232,7 +232,51 @@ class Race:
                 The bot will always join a race.
                 There are no cheaters and it isn't rigged.
         """
-        await self.start_race(ctx)
+        author = ctx.message.author
+        data = self.check_server(author.server)
+        settings = self.check_config(author.server)
+        
+        if data['Race Active']:
+            return
+
+        self.game_teardown(data, force=True)
+        data['Race Active'] = True
+        data['Players'][author.id] = {}
+        wait = settings['Time']
+        await self.bot.say(":triangular_flag_on_post: A race has begun! Type {}race enter "
+                           "to join the race! :triangular_flag_on_post:\n{}The race will "
+                           "begin in {} seconds!\n\n**{}** entered the "
+                           "race!".format(ctx.prefix, ' ' * 25, wait, author.mention))
+        await asyncio.sleep(wait)
+        await self.bot.say(":checkered_flag: The race is now in progress :checkered_flag:")
+
+        data['Race Start'] = True
+
+        racers = self.game_setup(author, data, settings['Mode'])
+        race_msg = await self.bot.say('\u200b'+'\n'+'\n'.join([player.field() for player in racers]))
+        await self.run_game(racers, race_msg, data)
+
+        footer = "Type {}race claim to receive prize money. You must claim it before the next race!"
+        first = ':first_place:  {0}'.format(*data['First'])
+        fv = '{1}\n{2:.2f}s'.format(*data['First'])
+        second = ':second_place: {0}'.format(*data['Second'])
+        sv = '{1}\n{2:.2f}s'.format(*data['Second'])
+        if data['Third']:
+            third = ':third_place:  {0}'.format(*data['Third'])
+            tv = '{1}\n{2:.2f}s'.format(*data['Third'])
+        else:
+            third = ':third_place:'
+            tv = '--\n--'
+
+        embed = discord.Embed(colour=0x00CC33)
+        embed.add_field(name=first, value=fv)
+        embed.add_field(name=second, value=sv)
+        embed.add_field(name=third, value=tv)
+        embed.add_field(name='-' * 99, value='{} is the winner!'.format(data['Winner']))
+        embed.title = "Race Results"
+        embed.set_footer(text=footer.format(ctx.prefix))
+        await self.bot.say(content=data['Winner'].mention, embed=embed)
+        self.game_teardown(data)
 
     async def start_race(self, ctx)
         author = ctx.message.author
