@@ -232,10 +232,13 @@ class Race:
                 The bot will always join a race.
                 There are no cheaters and it isn't rigged.
         """
+        await self.start_race(ctx)
+
+    async def start_race(self, ctx)
         author = ctx.message.author
         data = self.check_server(author.server)
         settings = self.check_config(author.server)
-
+        
         if data['Race Active']:
             return
 
@@ -397,7 +400,7 @@ class Race:
         await self.bot.say("Trying to start the daily race now")
         if not stop_daily.is_set():
             await self.bot.say("Time for the daily race!")
-            await self._start_race()
+            await self.start_race()
             await asyncio.sleep(time)
             await self.daily_race(stop_daily, time)
 
