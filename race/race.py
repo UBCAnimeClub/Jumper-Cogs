@@ -397,7 +397,7 @@ class Race:
         await self.bot.say("Trying to start the daily race now")
         if not stop_daily.is_set():
             await self.bot.say("Time for the daily race!")
-            await self._start_race
+            await self._start_race()
             await asyncio.sleep(time)
             await self.daily_race(stop_daily, time)
 
