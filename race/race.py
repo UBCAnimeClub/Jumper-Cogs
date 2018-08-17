@@ -376,7 +376,7 @@ class Race:
         author = ctx.message.author
         data = self.check_server(author.server)
 
-        if 'Daily' in data and not data['Daily'].isSet():
+        if 'Daily' in data and not data['Daily'].is_set():
             data['Daily'].set()
             await self.bot.say("The daily race has been cancelled")
         else:
