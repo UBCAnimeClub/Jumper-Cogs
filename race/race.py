@@ -239,12 +239,10 @@ class Race:
 
         self.game_teardown(data, force=True)
         data['Race Active'] = True
-        data['Players'][author.id] = {}
         wait = settings['Time']
         await self.bot.say(":triangular_flag_on_post: A race has begun! Type {}race enter "
                            "to join the race! :triangular_flag_on_post:\n{}The race will "
-                           "begin in {} seconds!\n\n**{}** entered the "
-                           "race!".format(ctx.prefix, ' ' * 25, wait, author.mention))
+                           "begin in {} seconds!\n".format(ctx.prefix, ' ' * 25, wait))
         await asyncio.sleep(wait)
         await self.bot.say(":checkered_flag: The race is now in progress :checkered_flag:")
 
