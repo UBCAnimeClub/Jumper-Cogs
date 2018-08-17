@@ -381,7 +381,6 @@ class Race:
         """
         author = ctx.message.author
         data = self.check_server(author.server)
-        settings = self.check_config(author.server)
 
         if 'Daily' in data and not data['Daily'].isSet():
             data['Daily'].set()
@@ -391,11 +390,13 @@ class Race:
 
     async def daily_race(self, ctx, stop_daily, time=86400):
         await self.bot.say("Trying to start the daily race now")
-        if not stop_daily.is_set():
-            await self.bot.say("Time for the daily race!")
-            await self._start_race(ctx)
-            await asyncio.sleep(time)
-            await self.daily_race(ctx, stop_daily, time)
+        while True:
+            if not stop_daily.is_set():
+                await self.bot.say("Time for the daily race!")
+                await self._start_race(ctx)
+                await asyncio.sleep(time)
+            else:
+                break
 
     def check_server(self, server):
         if server.id in self.system:
