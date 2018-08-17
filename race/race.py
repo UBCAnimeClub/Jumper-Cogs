@@ -270,7 +270,7 @@ class Race:
         embed.add_field(name='-' * 99, value='{} is the winner!'.format(data['Winner']))
         embed.title = "Race Results"
         await self.bot.say(content=data['Winner'].mention, embed=embed)
-        await self.bot._claim_race(ctx)
+        await self._claim_race(ctx)
         self.game_teardown(data)
 
     @race.command(name="enter", pass_context=True)
