@@ -389,7 +389,7 @@ class Race:
         else:
             await self.bot.say("There is no daily race to stop, dumbass")
 
-    async def daily_race(self, ctx, stop_daily, time=300):
+    async def daily_race(self, ctx, stop_daily, time=86400):
         await self.bot.say("Trying to start the daily race now")
         if not stop_daily.is_set():
             await self.bot.say("Time for the daily race!")
