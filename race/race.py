@@ -278,7 +278,7 @@ class Race:
         await self.bot.say(content=data['Winner'].mention, embed=embed)
         self.game_teardown(data)
 
-    async def start_race(self, ctx)
+    async def startrace(self, ctx)
         author = ctx.message.author
         data = self.check_server(author.server)
         settings = self.check_config(author.server)
@@ -444,7 +444,7 @@ class Race:
         await self.bot.say("Trying to start the daily race now")
         if not stop_daily.is_set():
             await self.bot.say("Time for the daily race!")
-            await self.start_race(ctx)
+            await self.startrace(ctx)
             await asyncio.sleep(time)
             await self.daily_race(ctx, stop_daily, time)
 
