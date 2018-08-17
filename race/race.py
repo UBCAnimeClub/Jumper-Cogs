@@ -278,6 +278,53 @@ class Race:
         await self.bot.say(content=data['Winner'].mention, embed=embed)
         self.game_teardown(data)
 
+    async def startrace(self, ctx)
+        author = ctx.message.author
+        data = self.check_server(author.server)
+        settings = self.check_config(author.server)
+        
+        if data['Race Active']:
+            return
+
+        self.game_teardown(data, force=True)
+        data['Race Active'] = True
+        data['Players'][author.id] = {}
+        wait = settings['Time']
+        await self.bot.say(":triangular_flag_on_post: A race has begun! Type {}race enter "
+                           "to join the race! :triangular_flag_on_post:\n{}The race will "
+                           "begin in {} seconds!\n\n**{}** entered the "
+                           "race!".format(ctx.prefix, ' ' * 25, wait, author.mention))
+        await asyncio.sleep(wait)
+        await self.bot.say(":checkered_flag: The race is now in progress :checkered_flag:")
+
+        data['Race Start'] = True
+
+        racers = self.game_setup(author, data, settings['Mode'])
+        race_msg = await self.bot.say('\u200b'+'\n'+'\n'.join([player.field() for player in racers]))
+        await self.run_game(racers, race_msg, data)
+
+        footer = "Type {}race claim to receive prize money. You must claim it before the next race!"
+        first = ':first_place:  {0}'.format(*data['First'])
+        fv = '{1}\n{2:.2f}s'.format(*data['First'])
+        second = ':second_place: {0}'.format(*data['Second'])
+        sv = '{1}\n{2:.2f}s'.format(*data['Second'])
+        if data['Third']:
+            third = ':third_place:  {0}'.format(*data['Third'])
+            tv = '{1}\n{2:.2f}s'.format(*data['Third'])
+        else:
+            third = ':third_place:'
+            tv = '--\n--'
+
+        embed = discord.Embed(colour=0x00CC33)
+        embed.add_field(name=first, value=fv)
+        embed.add_field(name=second, value=sv)
+        embed.add_field(name=third, value=tv)
+        embed.add_field(name='-' * 99, value='{} is the winner!'.format(data['Winner']))
+        embed.title = "Race Results"
+        embed.set_footer(text=footer.format(ctx.prefix))
+        await self.bot.say(content=data['Winner'].mention, embed=embed)
+        self.game_teardown(data)
+
     @race.command(name="enter", pass_context=True)
     async def _enter_race(self, ctx):
         """Enter an animal race
@@ -370,13 +417,14 @@ class Race:
         seconds = tdelta.total_seconds()
 
         data['Daily'] = threading.Event()
+        #threading.Timer(seconds, self.daily_race, [data['Daily']]).start()
         await self.bot.say("The race will occur daily at {}!".format(startTime))
         await self.bot.say("The first daily race will start in {} seconds".format(seconds))
         await self.bot.say("Time now: {}".format(timeNow.strftime("%Y-%m-%d %H:%M:%S")))
         await self.bot.say("Start time: {}".format(timeStart.strftime("%Y-%m-%d %H:%M:%S")))
 
         await asyncio.sleep(seconds)
-        await self.daily_race(data['Daily'])
+        await self.daily_race(ctx, data['Daily'])
 
     @race.command(name="stopdaily", pass_context=True)
     async def _stop_daily(self, ctx):
@@ -392,13 +440,13 @@ class Race:
         else:
             await self.bot.say("There is no daily race to stop, dumbass")
 
-    async def daily_race(self, stop_daily, time=30):
+    async def daily_race(self, ctx, stop_daily, time=86400):
         await self.bot.say("Trying to start the daily race now")
         if not stop_daily.is_set():
             await self.bot.say("Time for the daily race!")
-            
+            await self.startrace(ctx)
             await asyncio.sleep(time)
-            await self.daily_race(stop_daily, time)
+            await self.daily_race(ctx, stop_daily, time)
 
     def check_server(self, server):
         if server.id in self.system:
