@@ -356,6 +356,9 @@ class Race:
         time_now = datetime.now()
         try:
             time_start = datetime.strptime(start_time, FMT)
+            time_start.year = time_now.year
+            time_start.month = time_now.month
+            time_start.day = time_now.day
         except ValueError:
             return await self.bot.say("Please format the date like this: {}".format(FMT))
         tdelta = time_start - time_now
