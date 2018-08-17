@@ -244,11 +244,14 @@ class Race:
                            "to join the race! :triangular_flag_on_post:\n{}The race will "
                            "begin in {} seconds!\n".format(ctx.prefix, ' ' * 25, wait))
         await asyncio.sleep(wait)
-        await self.bot.say(":checkered_flag: The race is now in progress :checkered_flag:")
 
         data['Race Start'] = True
-
         racers = self.game_setup(author, data, settings['Mode'])
+        if len(racers) == 0:
+            return await self.bot.say("Looks like nobody's participating in the race today. See you guys tomorrow!")
+
+        await self.bot.say(":checkered_flag: The race is now in progress :checkered_flag:")
+
         race_msg = await self.bot.say('\u200b'+'\n'+'\n'.join([player.field() for player in racers]))
         await self.run_game(racers, race_msg, data)
 
