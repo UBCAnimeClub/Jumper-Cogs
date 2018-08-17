@@ -295,7 +295,7 @@ class Race:
             return
         elif author.id in data['Players']:
             return
-        elif len(data['Players']) == 8:
+        elif len(data['Players']) == 16:
             return
         else:
             data['Players'][author.id] = {}
@@ -338,7 +338,7 @@ class Race:
             bank.deposit_credits(winner, prize)
         except Exception as e:
             print('{} raised {} because they are stupid.'.format(winner.name, type(e)))
-            await self.bot.say("We wanted to give you a prize, but you didn't have a bank "
+           == await self.bot.say("We wanted to give you a prize, but you didn't have a bank "
                                "account.\nTo teach you a lesson, your winnings are mine this "
                                "time. Now go register!")
         else:
