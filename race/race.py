@@ -354,7 +354,7 @@ class Race:
         author = ctx.message.author
         data = self.check_server(author.server)
 
-        if 'Daily' not in data or not data['Daily'].is_set():
+        if 'Daily' in data and not data['Daily'].is_set():
             return await self.bot.say("There is already an active daily race!")
 
         FMT = '%H:%M:%S'
