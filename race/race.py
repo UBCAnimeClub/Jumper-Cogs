@@ -248,33 +248,33 @@ class Race:
         racers = self.game_setup(author, data, settings['Mode'])
         if len(racers) == 0:
             return await self.bot.say("Looks like nobody's participating in the race today. See you guys tomorrow!")
-
-        await self.bot.say(":checkered_flag: The race is now in progress :checkered_flag:")
-
-        race_msg = await self.bot.say('\u200b'+'\n'+'\n'.join([player.field() for player in racers]))
-        await self.run_game(racers, race_msg, data)
-
-        first = ':first_place:  {0}'.format(*data['First'])
-        fv = '{1}\n{2:.2f}s'.format(*data['First'])
-        second = ':second_place: {0}'.format(*data['Second'])
-        sv = '{1}\n{2:.2f}s'.format(*data['Second'])
-        if data['Third']:
-            third = ':third_place:  {0}'.format(*data['Third'])
-            tv = '{1}\n{2:.2f}s'.format(*data['Third'])
         else:
-            third = ':third_place:'
-            tv = '--\n--'
+            await self.bot.say(":checkered_flag: The race is now in progress :checkered_flag:")
 
-        embed = discord.Embed(colour=0x00CC33)
-        embed.add_field(name=first, value=fv)
-        embed.add_field(name=second, value=sv)
-        embed.add_field(name=third, value=tv)
-        embed.add_field(name='-' * 99, value='{} is the winner!'.format(data['Winner']))
-        embed.title = "Race Results"
+            race_msg = await self.bot.say('\u200b'+'\n'+'\n'.join([player.field() for player in racers]))
+            await self.run_game(racers, race_msg, data)
 
-        await self.bot.say(content=data['Winner'].mention, embed=embed)
-        if not data['Winner'].bot:
-            await self._claim_race(ctx)
+            first = ':first_place:  {0}'.format(*data['First'])
+            fv = '{1}\n{2:.2f}s'.format(*data['First'])
+            second = ':second_place: {0}'.format(*data['Second'])
+            sv = '{1}\n{2:.2f}s'.format(*data['Second'])
+            if data['Third']:
+                third = ':third_place:  {0}'.format(*data['Third'])
+                tv = '{1}\n{2:.2f}s'.format(*data['Third'])
+            else:
+                third = ':third_place:'
+                tv = '--\n--'
+
+            embed = discord.Embed(colour=0x00CC33)
+            embed.add_field(name=first, value=fv)
+            embed.add_field(name=second, value=sv)
+            embed.add_field(name=third, value=tv)
+            embed.add_field(name='-' * 99, value='{} is the winner!'.format(data['Winner']))
+            embed.title = "Race Results"
+
+            await self.bot.say(content=data['Winner'].mention, embed=embed)
+            if not data['Winner'].bot:
+                await self._claim_race(ctx)
 
         self.game_teardown(data)
 
@@ -353,6 +353,9 @@ class Race:
         """
         author = ctx.message.author
         data = self.check_server(author.server)
+
+        if 'Daily' not in data or not data['Daily'].is_set():
+            return await self.bot.say("There is already an active daily race!")
 
         FMT = '%H:%M:%S'
         time_now = datetime.now()
