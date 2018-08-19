@@ -247,7 +247,7 @@ class Race:
         data['Race Start'] = True
         racers = self.game_setup(author, data, settings['Mode'])
         if len(racers) == 0:
-            return await self.bot.say("Looks like nobody's participating in the race today. See you guys tomorrow!")
+            await self.bot.say("Looks like nobody's participating in the race today. See you guys tomorrow!")
         else:
             await self.bot.say(":checkered_flag: The race is now in progress :checkered_flag:")
 
@@ -396,7 +396,6 @@ class Race:
             await self.bot.say("There is no daily race to stop, dumbass")
 
     async def daily_race(self, ctx, stop_daily, time=86400):
-        await self.bot.say("Trying to start the daily race now")
         while True:
             if not stop_daily.is_set():
                 time_before = datetime.now()
