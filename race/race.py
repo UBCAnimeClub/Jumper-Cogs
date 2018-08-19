@@ -5,7 +5,6 @@
 import asyncio
 import random
 import os
-import threading
 from datetime import datetime
 from datetime import timedelta
 
@@ -366,7 +365,7 @@ class Race:
             tdelta = timedelta(days=0, seconds=tdelta.seconds, microseconds=tdelta.microseconds)
         seconds = tdelta.total_seconds()
 
-        data['Daily'] = threading.Event(loop=asyncio.get_event_loop())
+        data['Daily'] = asyncio.Event(loop=asyncio.get_event_loop())
         role = discord.utils.get(ctx.message.server.roles, name="race")
         if role is not None:
             mention = role.mention
