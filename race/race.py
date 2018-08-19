@@ -348,6 +348,7 @@ class Race:
                                "you get {} credits.".format(prize))
 
     @race.command(name="startdaily", pass_context=True)
+    @checks.admin_or_permissions(manage_server=True)
     async def _start_daily(self, ctx, start_time):
         """Set the bot to do a daily race
         """
@@ -379,6 +380,7 @@ class Race:
         await self.daily_race(ctx, author.server)
 
     @race.command(name="stopdaily", pass_context=True)
+    @checks.admin_or_permissions(manage_server=True)
     async def _stop_daily(self, ctx):
         """Stop the daily race
         """
