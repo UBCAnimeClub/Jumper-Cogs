@@ -369,18 +369,14 @@ class Race:
         seconds = tdelta.total_seconds()
 
         data['Daily'] = asyncio.Event(loop=asyncio.get_event_loop())
-        role = discord.utils.get(ctx.message.server.roles, name="race")
-        if role is not None:
-            mention = role.mention
-        else:
-            mention = "Attention"
-        await self.bot.say("{}: The race will occur daily at {}!".format(mention, start_time))
+
+        await self.bot.say("The race will occur daily at {}!".format(start_time))
         await self.bot.say("The first daily race will start in {} seconds".format(seconds))
         await self.bot.say("Time now: {}".format(time_now.strftime("%Y-%m-%d %H:%M:%S")))
         await self.bot.say("Start time: {}".format(time_start.strftime("%Y-%m-%d %H:%M:%S")))
 
         await asyncio.sleep(seconds)
-        await self.daily_race(ctx, data['Daily'])
+        await self.daily_race(ctx, author.server)
 
     @race.command(name="stopdaily", pass_context=True)
     async def _stop_daily(self, ctx):
@@ -395,14 +391,21 @@ class Race:
         else:
             await self.bot.say("There is no daily race to stop, dumbass")
 
-    async def daily_race(self, ctx, stop_daily, time=86400):
+    async def daily_race(self, ctx, server, time=86400):
+        data = self.check_server(server)
+        role = discord.utils.get(ctx.message.server.roles, name="race")
+
+        if role is None:
+            raise Exception("No @race role found")
+
         while True:
-            if not stop_daily.is_set():
+            if 'Daily' in data and not data['Daily'].is_set():
                 time_before = datetime.now()
-                await self.bot.say("Time for the daily race!")
+                await self.bot.say("{}: Time for the daily race!".format(role.mention))
                 await self._start_race(ctx)
 
-                seconds = time - (datetime.now() - time_before).total_seconds()
+                # To keep the seconds non-negative in case of time adjustments
+                seconds = max(0, time - (datetime.now() - time_before).total_seconds())
                 await asyncio.sleep(seconds)
             else:
                 break
