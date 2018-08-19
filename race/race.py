@@ -295,13 +295,13 @@ class Race:
         data = self.check_server(author.server)
 
         if data['Race Start']:
-            return
+            return await self.bot.say("A race is happening already.")
         elif not data['Race Active']:
-            return
+            return await self.bot.say("There is no race to enter.")
         elif author.id in data['Players']:
-            return
+            return await self.bot.say("You're already registered as a racer.")
         elif len(data['Players']) == 16:
-            return
+            return await self.bot.say("There are already 16 players; the race is full.")
         else:
             data['Players'][author.id] = {}
             await self.bot.say("**{}** entered the race!".format(author.name))
