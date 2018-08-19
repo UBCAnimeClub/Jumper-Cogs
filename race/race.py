@@ -272,6 +272,7 @@ class Race:
         embed.add_field(name=third, value=tv)
         embed.add_field(name='-' * 99, value='{} is the winner!'.format(data['Winner']))
         embed.title = "Race Results"
+
         await self.bot.say(content=data['Winner'].mention, embed=embed)
         if not data['Winner'].bot:
             await self._claim_race(ctx)
@@ -365,8 +366,13 @@ class Race:
             tdelta = timedelta(days=0, seconds=tdelta.seconds, microseconds=tdelta.microseconds)
         seconds = tdelta.total_seconds()
 
-        data['Daily'] = threading.Event()
-        await self.bot.say("{}: The race will occur daily at {}!".format(discord.utils.get(ctx.message.server.roles, name="race").mention, start_time))
+        data['Daily'] = threading.Event(loop=asyncio.get_event_loop())
+        role = discord.utils.get(ctx.message.server.roles, name="race")
+        if role is not None:
+            mention = role.mention
+        else:
+            mention = "Attention"
+        await self.bot.say("{}: The race will occur daily at {}!".format(mention, start_time))
         await self.bot.say("The first daily race will start in {} seconds".format(seconds))
         await self.bot.say("Time now: {}".format(time_now.strftime("%Y-%m-%d %H:%M:%S")))
         await self.bot.say("Start time: {}".format(time_start.strftime("%Y-%m-%d %H:%M:%S")))
